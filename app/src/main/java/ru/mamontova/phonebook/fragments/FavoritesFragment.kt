@@ -6,19 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_contacts.*
 import kotlinx.android.synthetic.main.fragment_favorites.*
 import ru.mamontova.phonebook.*
 import ru.mamontova.phonebook.db.DBmanager
 
-class FavoritesFragment(val dbManager: DBmanager) : Fragment() {
+class FavoritesFragment(private val dbManager: DBmanager) : Fragment() {
 
-    val contactsList = ArrayList<FavoriteContact>()
-    val adapter = AdapterForFaves(contactsList)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private val contactsList = ArrayList<FavoriteContact>()
+    private val adapter = AdapterForFavs(contactsList)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

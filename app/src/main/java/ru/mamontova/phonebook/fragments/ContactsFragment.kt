@@ -1,6 +1,5 @@
 package ru.mamontova.phonebook.fragments
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,14 +13,10 @@ import ru.mamontova.phonebook.Contact
 import ru.mamontova.phonebook.R
 import ru.mamontova.phonebook.db.DBmanager
 
-class ContactsFragment(val dbManager: DBmanager) : Fragment(), Adapter.OnItemClickListener {
+class ContactsFragment(private val dbManager: DBmanager) : Fragment(), Adapter.OnItemClickListener {
 
-    val contactsList = ArrayList<Contact>()
-    val adapter = Adapter(contactsList, this)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private val contactsList = ArrayList<Contact>()
+    private val adapter = Adapter(contactsList, this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,7 +69,7 @@ class ContactsFragment(val dbManager: DBmanager) : Fragment(), Adapter.OnItemCli
         adapter.notifyItemChanged(position)
     }
 
-    fun clear() {
+    private fun clear() {
         val size = contactsList.size
         contactsList.clear()
         adapter.notifyItemRangeRemoved(0, size)

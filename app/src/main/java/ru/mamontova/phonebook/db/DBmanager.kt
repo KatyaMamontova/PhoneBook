@@ -3,14 +3,13 @@ package ru.mamontova.phonebook.db
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 
-class DBmanager(val context: Context) {
+class DBmanager(context: Context) {
     private val dbHelper = DBhelper(context)
-    var db: SQLiteDatabase? = null
+    private var db: SQLiteDatabase? = null
 
-    fun openDB() {
+    private fun openDB() {
         db = dbHelper.writableDatabase
     }
 
@@ -18,7 +17,7 @@ class DBmanager(val context: Context) {
         val values = ContentValues().apply {
             put(DB.COLUMN_NAME, name)
             put(DB.COLUMN_PHONE_NUMBER, phoneNumber)
-            put(DB.COLUMN_IS_FAVORITE, phoneNumber)
+            put(DB.COLUMN_IS_FAVORITE, isFavorite)
         }
         db?.insert(DB.TABLE_NAME, null, values)
     }
@@ -38,14 +37,14 @@ class DBmanager(val context: Context) {
         db?.update(DB.TABLE_NAME, cv,DB.COLUMN_NAME + "=?", arrayOf(name))
     }
 
-    fun isFavorite(name: String): Int? {
+    private fun isFavorite(name: String): Int? {
         val db = dbHelper.readableDatabase
         db?.rawQuery(
             "SELECT ${DB.COLUMN_IS_FAVORITE} " +
                     "FROM ${DB.TABLE_NAME} WHERE ${DB.COLUMN_NAME} = ?", arrayOf(name)
         ).use {
             if(it?.moveToFirst() == true) {
-                return it?.getColumnIndex(DB.COLUMN_IS_FAVORITE)?.let { it1 -> it?.getInt(it1) }
+                return it.getColumnIndex(DB.COLUMN_IS_FAVORITE).let { it1 -> it.getInt(it1) }
             }
         }
         return null
@@ -68,7 +67,7 @@ class DBmanager(val context: Context) {
             val contact = mapOf("name" to name.toString(), "phone" to phone.toString(), "isFavorite" to isFavorite)
             dataList.add(contact)
         }} catch (e: NullPointerException) {
-            e.printStackTrace();
+            e.printStackTrace()
         } finally {
             cursor?.close()
         }
@@ -91,7 +90,7 @@ class DBmanager(val context: Context) {
                 val contact = mapOf("name" to name.toString(), "phone" to phone.toString())
                 dataList.add(contact)
             }} catch (e: NullPointerException) {
-            e.printStackTrace();
+            e.printStackTrace()
         } finally {
             cursor?.close()
         }

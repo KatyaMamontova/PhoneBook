@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.favorite_contact.view.*
 import androidx.recyclerview.widget.RecyclerView.Adapter as AdapterForFaves1
 
-class AdapterForFaves(
+class AdapterForFavs(
     private val list: List<FavoriteContact>
-) :  AdapterForFaves1<AdapterForFaves.ViewHolder>() {
+) :  AdapterForFaves1<AdapterForFavs.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val favContact = LayoutInflater.from(parent.context).inflate(R.layout.favorite_contact, parent, false)
